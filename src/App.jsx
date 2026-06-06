@@ -1,7 +1,12 @@
+import Navbar from './components/Navbar'
+import Board from './components/Board'
+
 function App() {
+
   return (
     <div>
-      <h1 className="text-4xl font-blod text-blue-400">Kanbi</h1>
+      <Navbar />
+      <Board />
     </div>
   )
 }
