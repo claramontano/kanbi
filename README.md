@@ -1,16 +1,32 @@
-# React + Vite
+# Kanbi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kanban board app built with React, Tailwind CSS and drag & drop.
 
-Currently, two official plugins are available:
+![Kanbi screenshot](./screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Drag & drop tasks between columns and within the same column
+- Create tasks with priority levels (high, medium, low)
+- Delete tasks with hover action
+- Clear all completed tasks in one click
+- Task counter in the navbar
+- Data persistence with localStorage — tasks survive page refresh
+- Smooth animations with Framer Motion
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite
+- Tailwind CSS v4
+- @dnd-kit (drag & drop)
+- Framer Motion (animations)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+## Project structure
