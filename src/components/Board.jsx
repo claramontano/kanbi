@@ -24,7 +24,7 @@ const columns = [
 
 const COLUMN_IDS = ['todo', 'inprogress', 'done']
 
-function Board() {
+function Board({ onTaskCountChange }) {
     const [tasks, setTasks] = useState(() => {
         const saved = localStorage.getItem('kanbi-tasks')
         return saved ? JSON.parse(saved) : initialTasks
@@ -37,6 +37,10 @@ function Board() {
 
     useEffect(() => {
         localStorage.setItem('kanbi-tasks', JSON.stringify(tasks))
+    }, [tasks])
+
+    useEffect(() => {
+        onTaskCountChange(tasks.length)
     }, [tasks])
 
     function handleDragStart({ active }) {
