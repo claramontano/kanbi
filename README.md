@@ -12,7 +12,6 @@ Kanban board app built with React, Tailwind CSS and drag & drop.
 - Clear all completed tasks in one click
 - Task counter in the navbar
 - Data persistence with localStorage — tasks survive page refresh
-- Smooth animations with Framer Motion
 
 ## Tech stack
 
@@ -30,3 +29,19 @@ npm run dev
 ```
 
 ## Project structure
+
+src/
+├── components/
+│   ├── Navbar.jsx      # Top bar with task counter
+│   ├── Board.jsx       # Main board with state management
+│   ├── Column.jsx      # Each kanban column
+│   └── TaskCard.jsx    # Individual task card
+└── App.jsx
+
+## Live demo
+
+[kanbi-topaz.vercel.app](https://kanbi-topaz.vercel.app)
+
+---
+
+Made by [Clara Montaño](https://github.com/claramontano)
