@@ -18,6 +18,16 @@ const columns = [
 function Board() {
     const [tasks, setTasks] = useState(initialTasks)
 
+    function handleAddTask(columnId, title) {
+        const newTask = {
+            id: Date.now(),
+            title,
+            priority: 'media',
+            column: columnId,
+        }
+        setTasks([...tasks, newTask])
+    }
+
     return (
         <div className="p-6">
             <div className="grid grid-cols-3 gap-4">
@@ -26,6 +36,7 @@ function Board() {
                         key={column.id}
                         column={column}
                         tasks={tasks.filter(t => t.column === column.id)}
+                        onAddTask={handleAddTask}
                     />
                 ))}
             </div>
