@@ -39,6 +39,12 @@ function Board() {
         setTasks(tasks.filter(t => t.id !== taskId))
     }
 
+    function handleMoveTask(taskId, newColumn) {
+        setTasks(tasks.map(t =>
+            t.id === taskId ? { ...t, column: newColumn } : t
+        ))
+    }
+
     return (
         <div className="p-6">
             <div className="grid grid-cols-3 gap-4">
@@ -49,6 +55,7 @@ function Board() {
                         tasks={tasks.filter(t => t.column === column.id)}
                         onAddTask={handleAddTask}
                         onDeleteTask={handleDeleteTask}
+                        onMoveTask={handleMoveTask}
                     />
                 ))}
             </div>

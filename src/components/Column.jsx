@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import TaskCard from './TaskCard'
 
-function Column({ column, tasks, onAddTask, onDeleteTask }) {
+function Column({ column, tasks, onAddTask, onDeleteTask, onMoveTask }) {
 
     const [adding, setAdding] = useState(false)
     const [newTitle, setNewTitle] = useState('')
@@ -39,7 +39,12 @@ function Column({ column, tasks, onAddTask, onDeleteTask }) {
 
             {/* Tarjetas */}
             {tasks.map(task => (
-                <TaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} />
+                <TaskCard
+                    key={task.id}
+                    task={task}
+                    onDeleteTask={onDeleteTask}
+                    onMoveTask={onMoveTask}
+                />
             ))}
 
             {/* Añadir tarea */}
