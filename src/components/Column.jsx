@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useDroppable } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import TaskCard from './TaskCard'
 
-function Column({ column, tasks, onAddTask, onDeleteTask, onMoveTask }) {
-
+function Column({ column, tasks, onAddTask, onDeleteTask }) {
     const [adding, setAdding] = useState(false)
     const [newTitle, setNewTitle] = useState('')
     const [newPriority, setNewPriority] = useState('media')
+
+    const { setNodeRef, isOver } = useDroppable({ id: column.id })
 
     const colorMap = {
         blue: 'bg-blue-400',
@@ -23,8 +26,6 @@ function Column({ column, tasks, onAddTask, onDeleteTask, onMoveTask }) {
 
     return (
         <div className="bg-gray-900 rounded-xl p-4 flex flex-col gap-3">
-
-            {/* Cabecera */}
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${colorMap[column.color]}`}></span>
@@ -37,17 +38,17 @@ function Column({ column, tasks, onAddTask, onDeleteTask, onMoveTask }) {
                 </span>
             </div>
 
-            {/* Tarjetas */}
-            {tasks.map(task => (
-                <TaskCard
-                    key={task.id}
-                    task={task}
-                    onDeleteTask={onDeleteTask}
-                    onMoveTask={onMoveTask}
-                />
-            ))}
+            <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
+                <div
+                    ref={setNodeRef}
+                    className={`flex flex-col gap-3 min-h-24 rounded-lg p-1 transition-colors ${isOver ? 'bg-blue-400/5 ring-1 ring-blue-400/20' : ''}`}
+                >
+                    {tasks.map(task => (
+                        <TaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} />
+                    ))}
+                </div>
+            </SortableContext>
 
-            {/* Añadir tarea */}
             {adding ? (
                 <div className="flex flex-col gap-2 mt-1">
                     <input
@@ -69,29 +70,19 @@ function Column({ column, tasks, onAddTask, onDeleteTask, onMoveTask }) {
                         <option value="baja">Baja</option>
                     </select>
                     <div className="flex gap-2">
-                        <button
-                            onClick={handleAdd}
-                            className="text-xs bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-3 py-1.5 font-semibold transition-colors"
-                        >
+                        <button onClick={handleAdd} className="text-xs bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-3 py-1.5 font-semibold transition-colors">
                             Añadir
                         </button>
-                        <button
-                            onClick={() => { setAdding(false); setNewTitle(''); setNewPriority('media') }}
-                            className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
-                        >
+                        <button onClick={() => { setAdding(false); setNewTitle(''); setNewPriority('media') }} className="text-xs text-gray-400 hover:text-gray-200 transition-colors">
                             Cancelar
                         </button>
                     </div>
                 </div>
             ) : (
-                <button
-                    onClick={() => setAdding(true)}
-                    className="text-sm text-gray-500 hover:text-gray-300 flex items-center gap-1 mt-1 transition-colors"
-                >
+                <button onClick={() => setAdding(true)} className="text-sm text-gray-500 hover:text-gray-300 flex items-center gap-1 mt-1 transition-colors">
                     <span className="text-lg leading-none">+</span> Añadir tarea
                 </button>
             )}
-
         </div>
     )
 }
