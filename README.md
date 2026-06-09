@@ -30,6 +30,7 @@ npm run dev
 
 ## Project structure
 
+```
 src/
 ├── components/
 │   ├── Navbar.jsx      # Top bar with task counter
@@ -37,6 +38,7 @@ src/
 │   ├── Column.jsx      # Each kanban column
 │   └── TaskCard.jsx    # Individual task card
 └── App.jsx
+```
 
 ## Live demo
 
