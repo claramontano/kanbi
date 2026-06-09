@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import TaskCard from './TaskCard'
 
-function Column({ column, tasks, onAddTask }) {
+function Column({ column, tasks, onAddTask, onDeleteTask }) {
+
     const [adding, setAdding] = useState(false)
     const [newTitle, setNewTitle] = useState('')
     const [newPriority, setNewPriority] = useState('media')
@@ -38,7 +39,7 @@ function Column({ column, tasks, onAddTask }) {
 
             {/* Tarjetas */}
             {tasks.map(task => (
-                <TaskCard key={task.id} task={task} />
+                <TaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} />
             ))}
 
             {/* Añadir tarea */}

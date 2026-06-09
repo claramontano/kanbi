@@ -37,11 +37,16 @@ function Board() {
                         column={column}
                         tasks={tasks.filter(t => t.column === column.id)}
                         onAddTask={handleAddTask}
+                        onDeleteTask={handleDeleteTask}
                     />
                 ))}
             </div>
         </div>
     )
+}
+
+function handleDeleteTask(taskId) {
+    setTasks(tasks.filter(t => t.id !== taskId))
 }
 
 export default Board
