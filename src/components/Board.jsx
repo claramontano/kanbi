@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Column from './Column'
 
 const initialTasks = [
@@ -16,7 +16,14 @@ const columns = [
 ]
 
 function Board() {
-    const [tasks, setTasks] = useState(initialTasks)
+    const [tasks, setTasks] = useState(() => {
+        const saved = localStorage.getItem('kanbi-tasks')
+        return saved ? JSON.parse(saved) : initialTasks
+    })
+
+    useEffect(() => {
+        localStorage.setItem('kanbi-tasks', JSON.stringify(tasks))
+    }, [tasks])
 
     function handleAddTask(columnId, title, priority) {
         const newTask = {
@@ -26,6 +33,10 @@ function Board() {
             column: columnId,
         }
         setTasks([...tasks, newTask])
+    }
+
+    function handleDeleteTask(taskId) {
+        setTasks(tasks.filter(t => t.id !== taskId))
     }
 
     return (
@@ -43,10 +54,6 @@ function Board() {
             </div>
         </div>
     )
-}
-
-function handleDeleteTask(taskId) {
-    setTasks(tasks.filter(t => t.id !== taskId))
 }
 
 export default Board
