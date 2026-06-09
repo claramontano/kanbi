@@ -18,11 +18,11 @@ const columns = [
 function Board() {
     const [tasks, setTasks] = useState(initialTasks)
 
-    function handleAddTask(columnId, title) {
+    function handleAddTask(columnId, title, priority) {
         const newTask = {
             id: Date.now(),
             title,
-            priority: 'media',
+            priority,
             column: columnId,
         }
         setTasks([...tasks, newTask])

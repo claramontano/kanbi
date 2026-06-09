@@ -4,6 +4,7 @@ import TaskCard from './TaskCard'
 function Column({ column, tasks, onAddTask }) {
     const [adding, setAdding] = useState(false)
     const [newTitle, setNewTitle] = useState('')
+    const [newPriority, setNewPriority] = useState('media')
 
     const colorMap = {
         blue: 'bg-blue-400',
@@ -13,8 +14,9 @@ function Column({ column, tasks, onAddTask }) {
 
     function handleAdd() {
         if (newTitle.trim() === '') return
-        onAddTask(column.id, newTitle.trim())
+        onAddTask(column.id, newTitle.trim(), newPriority)
         setNewTitle('')
+        setNewPriority('media')
         setAdding(false)
     }
 
@@ -51,6 +53,15 @@ function Column({ column, tasks, onAddTask }) {
                         placeholder="Título de la tarea..."
                         className="bg-gray-800 text-sm text-white rounded-lg px-3 py-2 outline-none ring-1 ring-blue-400/50 placeholder-gray-500"
                     />
+                    <select
+                        value={newPriority}
+                        onChange={e => setNewPriority(e.target.value)}
+                        className="bg-gray-800 text-sm text-gray-300 rounded-lg px-3 py-2 outline-none ring-1 ring-gray-600"
+                    >
+                        <option value="alta">Alta</option>
+                        <option value="media">Media</option>
+                        <option value="baja">Baja</option>
+                    </select>
                     <div className="flex gap-2">
                         <button
                             onClick={handleAdd}
@@ -59,7 +70,7 @@ function Column({ column, tasks, onAddTask }) {
                             Añadir
                         </button>
                         <button
-                            onClick={() => { setAdding(false); setNewTitle('') }}
+                            onClick={() => { setAdding(false); setNewTitle(''); setNewPriority('media') }}
                             className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
                         >
                             Cancelar
