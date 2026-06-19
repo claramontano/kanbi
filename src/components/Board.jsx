@@ -39,13 +39,8 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
         localStorage.setItem('kanbi-tasks', JSON.stringify(tasks))
     }, [tasks])
 
-    useEffect(() => {
-        onTaskCountChange(tasks.length)
-    }, [tasks])
-
-    useEffect(() => {
-        onDoneCountChange(tasks.filter(t => t.column === 'done').length)
-    }, [tasks])
+    useEffect(() => { onTaskCountChange(tasks.length) }, [tasks])
+    useEffect(() => { onDoneCountChange(tasks.filter(t => t.column === 'done').length) }, [tasks])
 
     useEffect(() => {
         if (clearDone) {
@@ -53,6 +48,7 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
             onClearDoneDone()
         }
     }, [clearDone])
+
     function handleDragStart({ active }) {
         setActiveTask(tasks.find(t => t.id === active.id) || null)
     }
@@ -60,12 +56,10 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
     function handleDragEnd({ active, over }) {
         setActiveTask(null)
         if (!over) return
-
         const activeId = active.id
         const overId = over.id
         if (activeId === overId) return
 
-        // Soltado sobre una columna
         if (COLUMN_IDS.includes(overId)) {
             setTasks(prev => prev.map(t =>
                 t.id === activeId ? { ...t, column: overId } : t
@@ -73,23 +67,18 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
             return
         }
 
-        // Soltado sobre una tarjeta
         setTasks(prev => {
             const activeTask = prev.find(t => t.id === activeId)
             const overTask = prev.find(t => t.id === overId)
             if (!activeTask || !overTask) return prev
-
             const targetColumn = overTask.column
-
             const updated = prev.map(t =>
                 t.id === activeId ? { ...t, column: targetColumn } : t
             )
-
             const columnTasks = updated.filter(t => t.column === targetColumn)
             const oldIndex = columnTasks.findIndex(t => t.id === activeId)
             const newIndex = columnTasks.findIndex(t => t.id === overId)
             const reordered = arrayMove(columnTasks, oldIndex, newIndex)
-
             return [
                 ...updated.filter(t => t.column !== targetColumn),
                 ...reordered
@@ -112,8 +101,13 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <div className="p-6">
-                <div className="grid grid-cols-3 gap-4">
+            {/* Móvil: columnas apiladas | Desktop: 3 columnas en fila */}
+            <div style={{ padding: '16px' }}>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
+                    gap: '12px',
+                }}>
                     {columns.map(column => (
                         <Column
                             key={column.id}
@@ -128,8 +122,17 @@ function Board({ onTaskCountChange, onDoneCountChange, clearDone, onClearDoneDon
 
             <DragOverlay>
                 {activeTask && (
-                    <div className="bg-gray-800 rounded-lg p-3 shadow-2xl ring-1 ring-blue-400/50 rotate-1">
-                        <p className="text-sm text-gray-100 font-medium">{activeTask.title}</p>
+                    <div style={{
+                        background: '#1f2937',
+                        borderRadius: '8px',
+                        padding: '12px',
+                        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+                        outline: '1px solid rgba(96,165,250,0.4)',
+                        transform: 'rotate(1deg)',
+                    }}>
+                        <p style={{ fontSize: '14px', color: '#f3f4f6', fontWeight: 500 }}>
+                            {activeTask.title}
+                        </p>
                     </div>
                 )}
             </DragOverlay>
